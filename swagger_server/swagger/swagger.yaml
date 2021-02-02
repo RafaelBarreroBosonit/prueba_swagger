@@ -1,0 +1,157 @@
+---
+swagger: "2.0"
+info:
+  description: ""
+  version: "1"
+  title: "Prueba Flask"
+paths:
+  /media:
+    post:
+      summary: "Devuelve la media de los números introducidos"
+      operationId: "media_post"
+      parameters:
+      - in: "body"
+        name: "numeros"
+        description: "La media de los números a devolver"
+        required: true
+        schema:
+          $ref: "#/definitions/Calcular_media_post"
+      responses:
+        "200":
+          description: "JSON con la media de los números"
+          schema:
+            $ref: "#/definitions/Calcular_media_response_200"
+        "400":
+          description: "No es un número válido"
+          schema:
+            $ref: "#/definitions/Error_400"
+        "404":
+          description: "No se encuentra la ruta"
+          schema:
+            $ref: "#/definitions/Error_404"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error_500"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+  /cuadrados/{numeros}:
+    post:
+      summary: "Devuelve el cuadrado de los números introducidos"
+      operationId: "cuadrados_numeros_post"
+      parameters:
+      - name: "numeros"
+        in: "path"
+        required: true
+        type: "array"
+        items:
+          type: "number"
+        collectionFormat: "csv"
+      responses:
+        "200":
+          description: "JSON con el valor de los cuadrados y el total"
+          schema:
+            $ref: "#/definitions/Calcular_cuadrado_response"
+        "400":
+          description: "No es un número válido"
+          schema:
+            $ref: "#/definitions/Error_400"
+        "404":
+          description: "No se encuentra la ruta"
+          schema:
+            $ref: "#/definitions/Error_404"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error_500"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+definitions:
+  Calcular_media_post:
+    type: "object"
+    required:
+    - "numeros"
+    properties:
+      numeros:
+        type: "array"
+        items:
+          type: "number"
+          example: ""
+      redondear:
+        type: "boolean"
+        example: false
+  Calcular_media_response_200:
+    type: "object"
+    properties:
+      media:
+        type: "number"
+        example: 4.78
+    example:
+      media: 4.78
+  Calcular_cuadrado_response:
+    type: "object"
+    properties:
+      resultados:
+        type: "array"
+        items:
+          $ref: "#/definitions/Calcular_cuadrado_array"
+      total:
+        type: "number"
+        example: 1.0
+    example:
+      total: 1.0
+      resultados:
+      - original: 2
+        cuadrado: 4
+      - original: 2
+        cuadrado: 4
+  Calcular_cuadrado_array:
+    type: "object"
+    properties:
+      cuadrado:
+        type: "integer"
+        example: 4
+      original:
+        type: "integer"
+        example: 2
+    example:
+      original: 2
+      cuadrado: 4
+  Error:
+    type: "object"
+    required:
+    - "error"
+    properties:
+      error:
+        type: "string"
+        example: "Unexpected error"
+  Error_400:
+    type: "object"
+    required:
+    - "error"
+    properties:
+      error:
+        type: "string"
+        example: "Body is not valid JSON object."
+  Error_404:
+    type: "object"
+    required:
+    - "error"
+    properties:
+      error:
+        type: "string"
+        example: "Not found"
+  Error_500:
+    type: "object"
+    required:
+    - "error"
+    properties:
+      error:
+        type: "string"
+        example: "Internal server error"
