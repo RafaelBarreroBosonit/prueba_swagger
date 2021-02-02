@@ -15,16 +15,16 @@ class CalcularMediaPost(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, numeros: List[float]=None, redondear: bool=None):  # noqa: E501
+    def __init__(self, numeros: List[object]=None, redondear: bool=None):  # noqa: E501
         """CalcularMediaPost - a model defined in Swagger
 
         :param numeros: The numeros of this CalcularMediaPost.  # noqa: E501
-        :type numeros: List[float]
+        :type numeros: List[object]
         :param redondear: The redondear of this CalcularMediaPost.  # noqa: E501
         :type redondear: bool
         """
         self.swagger_types = {
-            'numeros': List[float],
+            'numeros': List[object],
             'redondear': bool
         }
 
@@ -48,22 +48,22 @@ class CalcularMediaPost(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def numeros(self) -> List[float]:
+    def numeros(self) -> List[object]:
         """Gets the numeros of this CalcularMediaPost.
 
 
         :return: The numeros of this CalcularMediaPost.
-        :rtype: List[float]
+        :rtype: List[object]
         """
         return self._numeros
 
     @numeros.setter
-    def numeros(self, numeros: List[float]):
+    def numeros(self, numeros: List[object]):
         """Sets the numeros of this CalcularMediaPost.
 
 
         :param numeros: The numeros of this CalcularMediaPost.
-        :type numeros: List[float]
+        :type numeros: List[object]
         """
         if numeros is None:
             raise ValueError("Invalid value for `numeros`, must not be `None`")  # noqa: E501
@@ -88,5 +88,7 @@ class CalcularMediaPost(Model):
         :param redondear: The redondear of this CalcularMediaPost.
         :type redondear: bool
         """
+        if redondear is None:
+            raise ValueError("Invalid value for `redondear`, must not be `None`")  # noqa: E501
 
         self._redondear = redondear

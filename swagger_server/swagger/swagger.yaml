@@ -77,12 +77,12 @@ definitions:
     type: "object"
     required:
     - "numeros"
+    - "redondear"
     properties:
       numeros:
         type: "array"
         items:
-          type: "number"
-          example: ""
+          example: "1.0, 4.34, 9.0"
       redondear:
         type: "boolean"
         example: false
@@ -91,9 +91,9 @@ definitions:
     properties:
       media:
         type: "number"
-        example: 4.78
+        example: 4.78000000000000024868995751603506505489349365234375
     example:
-      media: 4.78
+      media: 4.78000000000000024868995751603506505489349365234375
   Calcular_cuadrado_response:
     type: "object"
     properties:
@@ -103,9 +103,9 @@ definitions:
           $ref: "#/definitions/Calcular_cuadrado_array"
       total:
         type: "number"
-        example: 1.0
+        example: 1
     example:
-      total: 1.0
+      total: 1
       resultados:
       - original: 2
         cuadrado: 4
