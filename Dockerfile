@@ -1,7 +1,10 @@
-FROM python:3-alpine
+FROM python:3.8-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
+RUN apk add --update --no-cache py3-numpy
+ENV PYTHONPATH=/usr/lib/python3.8/site-packages
 
 COPY requirements.txt /usr/src/app/
 
