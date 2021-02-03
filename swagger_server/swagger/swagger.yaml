@@ -24,15 +24,15 @@ paths:
         "400":
           description: "No es un número válido"
           schema:
-            $ref: "#/definitions/Error_400"
+            $ref: "#/definitions/Error"
         "404":
           description: "No se encuentra la ruta"
           schema:
-            $ref: "#/definitions/Error_404"
+            $ref: "#/definitions/Error"
         "500":
           description: "Internal server error"
           schema:
-            $ref: "#/definitions/Error_500"
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -58,15 +58,15 @@ paths:
         "400":
           description: "No es un número válido"
           schema:
-            $ref: "#/definitions/Error_400"
+            $ref: "#/definitions/Error"
         "404":
           description: "No se encuentra la ruta"
           schema:
-            $ref: "#/definitions/Error_404"
+            $ref: "#/definitions/Error"
         "500":
           description: "Internal server error"
           schema:
-            $ref: "#/definitions/Error_500"
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -131,27 +131,3 @@ definitions:
       error:
         type: "string"
         example: "Unexpected error"
-  Error_400:
-    type: "object"
-    required:
-    - "error"
-    properties:
-      error:
-        type: "string"
-        example: "Body is not valid JSON object."
-  Error_404:
-    type: "object"
-    required:
-    - "error"
-    properties:
-      error:
-        type: "string"
-        example: "Not found"
-  Error_500:
-    type: "object"
-    required:
-    - "error"
-    properties:
-      error:
-        type: "string"
-        example: "Internal server error"
