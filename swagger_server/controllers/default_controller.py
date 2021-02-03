@@ -1,6 +1,8 @@
 import connexion
 import six
+import numpy as np
 
+from swagger_server.models import CalcularCuadradoArray
 from swagger_server.models.calcular_cuadrado_response import CalcularCuadradoResponse  # noqa: E501
 from swagger_server.models.calcular_media_post import CalcularMediaPost  # noqa: E501
 from swagger_server.models.calcular_media_response200 import CalcularMediaResponse200  # noqa: E501
@@ -21,7 +23,16 @@ def cuadrados_numeros_post(numeros):  # noqa: E501
 
     :rtype: CalcularCuadradoResponse
     """
-    return 'do some magic!'
+    list_array = []
+    if numeros:
+        numbers = np.array(numeros)
+        for number in numbers:
+            try:
+                cuadrado = int(np.square(int(number)))
+            except ValueError:
+                cuadrado = float(np.square(float(number)))
+            list_array.append(CalcularCuadradoArray(cuadrado, number))
+        return CalcularCuadradoResponse(list_array, len(list_array))
 
 
 def media_post(numeros):  # noqa: E501
@@ -36,4 +47,10 @@ def media_post(numeros):  # noqa: E501
     """
     if connexion.request.is_json:
         numeros = CalcularMediaPost.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        numbers = np.array(numeros.numeros)
+        redondear = numeros.redondear
+        if redondear:
+            media = np.trunc(np.mean(numbers))
+        else:
+            media = np.mean(numbers)
+        return CalcularMediaResponse200(media)
