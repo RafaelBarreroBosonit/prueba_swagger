@@ -91,9 +91,9 @@ definitions:
     properties:
       media:
         type: "number"
-        example: 4.78000000000000024868995751603506505489349365234375
+        example: 4.78
     example:
-      media: 4.78000000000000024868995751603506505489349365234375
+      media: 4.78
   Calcular_cuadrado_response:
     type: "object"
     properties:
