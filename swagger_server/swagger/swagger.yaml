@@ -7,6 +7,8 @@ info:
 paths:
   /media:
     post:
+      tags:
+      - "media"
       summary: "Devuelve la media de los números introducidos"
       operationId: "media_post"
       parameters:
@@ -37,9 +39,46 @@ paths:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+      x-swagger-router-controller: "swagger_server.controllers.media_controller"
+  /media_csv_url:
+    post:
+      tags:
+      - "media"
+      summary: "Devuelve la media de los números en un csv"
+      operationId: "media_csv_url_post"
+      parameters:
+      - in: "body"
+        name: "url"
+        description: "url donde se encuentra el csv"
+        required: true
+        schema:
+          $ref: "#/definitions/Calcular_media_csv_url"
+      responses:
+        "200":
+          description: "JSON con la media de los números"
+          schema:
+            $ref: "#/definitions/Calcular_media_response_200"
+        "400":
+          description: "No es un número válido"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "No se encuentra la ruta"
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "swagger_server.controllers.media_controller"
   /cuadrados/{numeros}:
     post:
+      tags:
+      - "cuadrado"
       summary: "Devuelve el cuadrado de los números introducidos"
       operationId: "cuadrados_numeros_post"
       parameters:
@@ -71,7 +110,7 @@ paths:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+      x-swagger-router-controller: "swagger_server.controllers.cuadrado_controller"
 definitions:
   Calcular_media_post:
     type: "object"
@@ -83,6 +122,18 @@ definitions:
         type: "array"
         items:
           example: "1.0, 4.34, 9.0"
+      redondear:
+        type: "boolean"
+        example: false
+  Calcular_media_csv_url:
+    type: "object"
+    required:
+    - "redondear"
+    - "url"
+    properties:
+      url:
+        type: "string"
+        example: "https://repo/fichero.csv"
       redondear:
         type: "boolean"
         example: false
@@ -103,9 +154,9 @@ definitions:
           $ref: "#/definitions/Calcular_cuadrado_array"
       total:
         type: "number"
-        example: 1
+        example: 1.0
     example:
-      total: 1
+      total: 1.0
       resultados:
       - original: 2
         cuadrado: 4

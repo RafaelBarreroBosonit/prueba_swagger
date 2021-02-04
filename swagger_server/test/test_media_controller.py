@@ -5,24 +5,27 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.calcular_cuadrado_response import CalcularCuadradoResponse  # noqa: E501
+from swagger_server.models.calcular_media_csv_url import CalcularMediaCsvUrl  # noqa: E501
 from swagger_server.models.calcular_media_post import CalcularMediaPost  # noqa: E501
 from swagger_server.models.calcular_media_response200 import CalcularMediaResponse200  # noqa: E501
 from swagger_server.models.error import Error  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
-class TestDefaultController(BaseTestCase):
-    """DefaultController integration test stubs"""
+class TestMediaController(BaseTestCase):
+    """MediaController integration test stubs"""
 
-    def test_cuadrados_numeros_post(self):
-        """Test case for cuadrados_numeros_post
+    def test_media_csv_url_post(self):
+        """Test case for media_csv_url_post
 
-        Devuelve el cuadrado de los números introducidos
+        Devuelve la media de los números en un csv
         """
+        url = CalcularMediaCsvUrl()
         response = self.client.open(
-            '/cuadrados/{numeros}'.format(numeros=3.4),
-            method='POST')
+            '/media_csv_url',
+            method='POST',
+            data=json.dumps(url),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
