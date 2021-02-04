@@ -1,5 +1,6 @@
 import csv
 import os
+from pathlib import Path
 
 import numpy as np
 import requests
@@ -8,9 +9,9 @@ from swagger_server.models import CalcularMediaResponse200, Error, CalcularMedia
 
 
 def media_csv_url(url: CalcularMediaCsvUrl) -> (CalcularMediaResponse200, Error):
-    path = os.getcwd()  # Path of working directory
+    base_path = Path(__file__).resolve().parent
     folder_csv = "input"
-    absolute_path = f"{path}/{folder_csv}"  # Absolute path of input folder
+    absolute_path = Path(base_path).joinpath(folder_csv)  # Absolute path of input folder
     try:
         os.mkdir(absolute_path)
     except FileExistsError:
@@ -18,7 +19,7 @@ def media_csv_url(url: CalcularMediaCsvUrl) -> (CalcularMediaResponse200, Error)
     r = requests.get(url.url)
     if r.status_code == 200:
         file_name = url.url.split("/")[-1]
-        absolute_path_file = f"{path}/{folder_csv}/{file_name}"  # Absolute path of file
+        absolute_path_file = Path(absolute_path).joinpath(file_name)  # Absolute path of file
 
         with open(absolute_path_file, 'wb+') as file:
             file.write(r.content)
@@ -34,11 +35,11 @@ def media_csv_url(url: CalcularMediaCsvUrl) -> (CalcularMediaResponse200, Error)
             numbers = np.fromstring(n, sep=',')
             redondear = url.redondear
             if redondear:
-                media = np.trunc(np.mean(numbers))
+                media_numero = np.trunc(np.mean(numbers))
             else:
-                media = np.mean(numbers)
+                media_numero = np.mean(numbers)
             os.remove(absolute_path_file)
-            return CalcularMediaResponse200(media)
+            return CalcularMediaResponse200(media_numero)
         else:
             os.remove(absolute_path_file)
             return Error("El archivo no es válido, contiene letras"), 400
