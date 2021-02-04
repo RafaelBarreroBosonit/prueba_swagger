@@ -1,3 +1,5 @@
+from typing import Tuple, Union
+
 import connexion
 import six
 
@@ -7,7 +9,7 @@ from swagger_server.models.error import Error  # noqa: E501
 from swagger_server import util
 
 
-def cuadrados_numeros_post(numeros):  # noqa: E501
+def cuadrados_numeros_post(numeros) -> Union[CalcularCuadradoResponse, Tuple[Error, int]]:  # noqa: E501
     """Devuelve el cuadrado de los números introducidos
 
      # noqa: E501

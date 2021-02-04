@@ -1,14 +1,17 @@
+from typing import Union, Tuple
+
 import connexion
 import six
 
 from swagger_server.controllers.src.media import media_csv_url, media
+from swagger_server.models import CalcularMediaResponse200
 from swagger_server.models.calcular_media_csv_url import CalcularMediaCsvUrl  # noqa: E501
 from swagger_server.models.calcular_media_post import CalcularMediaPost  # noqa: E501
 from swagger_server.models.error import Error  # noqa: E501
 from swagger_server import util
 
 
-def media_csv_url_post(url):  # noqa: E501
+def media_csv_url_post(url) -> Union[CalcularMediaResponse200, Tuple[Error, int]]:  # noqa: E501
     """Devuelve la media de los números en un csv
 
      # noqa: E501
@@ -28,7 +31,7 @@ def media_csv_url_post(url):  # noqa: E501
         return Error("Error desconocido"), 500
 
 
-def media_post(numeros):  # noqa: E501
+def media_post(numeros) -> Union[CalcularMediaResponse200, Tuple[Error, int]]:  # noqa: E501
     """Devuelve la media de los números introducidos
 
      # noqa: E501
