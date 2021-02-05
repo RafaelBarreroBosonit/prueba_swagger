@@ -11,7 +11,12 @@ def cuadrados_numeros(numeros: list) -> (CalcularCuadradoResponse, Error):
             try:
                 cuadrado = int(np.square(int(number)))
             except ValueError:
-                cuadrado = float(np.square(float(number)))
+                if number.isnumeric():
+                    cuadrado = float(np.square(float(number)))
+                else:
+                    return Error("No se admiten letras"), 400
+            except TypeError:
+                return Error("Los datos introducidos no son válidos"), 400
             list_array.append(CalcularCuadradoArray(cuadrado, number))
         return CalcularCuadradoResponse(list_array, len(list_array))
     else:

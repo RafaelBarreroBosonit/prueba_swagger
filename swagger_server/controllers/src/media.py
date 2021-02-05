@@ -16,7 +16,12 @@ def media_csv_url(url: CalcularMediaCsvUrl) -> (CalcularMediaResponse200, Error)
         os.mkdir(absolute_path)
     except FileExistsError:
         pass
-    r = requests.get(url.url)
+    try:
+        r = requests.get(url.url)
+    except requests.exceptions.MissingSchema:
+        return Error("La URL no es válida"), 404
+    except requests.exceptions.InvalidURL:
+        return Error("La URL no es válida"), 404
     if r.status_code == 200:
         file_name = url.url.split("/")[-1]
         absolute_path_file = Path(absolute_path).joinpath(file_name)  # Absolute path of file
@@ -48,13 +53,16 @@ def media_csv_url(url: CalcularMediaCsvUrl) -> (CalcularMediaResponse200, Error)
 
 
 def media(numeros: CalcularMediaPost) -> (CalcularMediaResponse200, Error):
-    numbers = np.array(numeros.numeros)
-    if numbers.dtype == np.float64 or numbers.dtype == np.int32:
-        redondear = numeros.redondear
-        if redondear:
-            media_numero = np.trunc(np.mean(numbers))
+    if numeros.numeros:
+        numbers = np.array(numeros.numeros)
+        if numbers.dtype == np.float64 or numbers.dtype == np.int32:
+            redondear = numeros.redondear
+            if redondear:
+                media_numero = np.trunc(np.mean(numbers))
+            else:
+                media_numero = np.mean(numbers)
+            return CalcularMediaResponse200(media_numero)
         else:
-            media_numero = np.mean(numbers)
-        return CalcularMediaResponse200(media_numero)
+            return Error("El array de números contiene tipos no válidos"), 400
     else:
-        return Error("El array de números contiene cadenas de texto"), 400
+        return Error("El array está vacío"), 400
